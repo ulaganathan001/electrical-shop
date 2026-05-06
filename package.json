@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "server": "node --experimental-strip-types --watch server/index.ts",
-    "build": "vite build",
+    "build": "vite build && tsc -p tsconfig.server.json",
+    "start": "node dist-server/index.js",
     "preview": "vite preview"
   },
   "dependencies": {
