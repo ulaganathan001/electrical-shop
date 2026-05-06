@@ -2,7 +2,10 @@ import express from "express";
 import mysql from "mysql2/promise";
 import cors from "cors";
 import path from "path";
+import { fileURLToPath } from "url";
 import "dotenv/config";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 app.use(cors());

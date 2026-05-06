@@ -1,17 +1,14 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const promise_1 = __importDefault(require("mysql2/promise"));
-const cors_1 = __importDefault(require("cors"));
-const path_1 = __importDefault(require("path"));
-require("dotenv/config");
-const app = (0, express_1.default)();
-app.use((0, cors_1.default)());
-app.use(express_1.default.json());
-const pool = promise_1.default.createPool({
+import express from "express";
+import mysql from "mysql2/promise";
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+import "dotenv/config";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const app = express();
+app.use(cors());
+app.use(express.json());
+const pool = mysql.createPool({
     host: process.env.MYSQL_HOST || "localhost",
     port: Number(process.env.MYSQL_PORT) || 3306,
     user: process.env.MYSQL_USER || "root",
@@ -68,7 +65,7 @@ app.delete("/api/stock/:id", async (req, res) => {
     res.json({ success: true });
 });
 // Serve React frontend
-app.use(express_1.default.static(path_1.default.join(__dirname, "../dist")));
-app.get("*", (_req, res) => res.sendFile(path_1.default.join(__dirname, "../dist/index.html")));
+app.use(express.static(path.join(__dirname, "../dist")));
+app.get("*", (_req, res) => res.sendFile(path.join(__dirname, "../dist/index.html")));
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
